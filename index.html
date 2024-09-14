@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hack Centauri Sign Up</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body, html {
+            height: 100%;
+            overflow: hidden;
+        }
+        body {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        canvas {
+            height: auto;
+            background: radial-gradient(ellipse at bottom, #0c1116 0%, #161927 100%);
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: -1;
+        }
+        .container {
+            background-color: rgba(17, 17, 17, 0.8);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 2px solid #ffffff;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            font-size: 2.5rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+            margin-bottom: 1.5rem;
+        }
+        .input-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: center;
+        }
+        input, select {
+            width: 80%;
+            padding: 0.8rem 1rem 0.8rem 2.5rem;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 2px solid #ffffff;
+            color: #ffffff;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            font-family: 'Orbitron', sans-serif;
+        }
+        input:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+        .input-icon {
+            position: absolute;
+            left: 12%;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ffffff;
+            font-size: 1rem;
+        }
+        button {
+            background-color: #ffffff;
+            color: #000000;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            border-radius: 25px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            font-family: 'Orbitron', sans-serif;
+        }
+        button:hover {
+            background-color: #cccccc;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+            transform: translateY(-3px);
+        }
+        .hidden {
+            display: none;
+        }
+        .fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        .fade-out {
+            animation: fadeOut 0.3s ease-in forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-20px); }
+        }
+        .back-btn {
+            background-color: transparent;
+            color: #ffffff;
+            border: 2px solid #ffffff;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            margin-right: 1rem;
+        }
+        .back-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        #summary {
+            text-align: left;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        #summary h3 {
+            margin-bottom: 0.5rem;
+        }
+        #summary p {
+            margin: 0.3rem 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.2);
+            margin-bottom: 1.5rem;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress {
+            width: 0;
+            height: 100%;
+            background-color: #ffffff;
+            transition: width 0.3s ease;
+        }
+
+        #blackhole {
+            height: 100%;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            background-color: rgba(25, 25, 25, 1);
+            transition: transform 2s ease-in-out, opacity 1s ease-in-out;
+        }
+
+        #signup-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: 999;
+        }
+
+        .zoom-out {
+            transform: scale(10);
+            opacity: 0;
+        }
+
+        .centerHover {
+            width: 255px;
+            height: 255px;
+            background-color: transparent;
+            border-radius: 50%;
+            position: absolute;
+            cursor: pointer;
+            line-height: 255px;
+            text-align: center;
+            transition: all 500ms;
+            z-index: 2;
+        }
+
+        .centerHover span {
+            color: #666;
+            font-family: serif;
+            font-size: 18px;
+            position: relative;
+            transition: all 500ms;
+        }
+
+        .centerHover span:before,
+        .centerHover span:after {
+            content: '';
+            display: inline-block;
+            height: 1px;
+            width: 16px;
+            margin: 0 12px 4px;
+            background-color: #666;
+            transition: all 500ms;
+        }
+
+        .centerHover:hover span {
+            color: #DDD;
+        }
+
+        .centerHover:hover span:before,
+        .centerHover:hover span:after {
+            background-color: #DDD;
+        }
+
+        .info-content {
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .info-content p {
+            margin-bottom: 1rem;
+        }
+
+        .info-content ul {
+            list-style-type: none;
+            padding-left: 1rem;
+        }
+
+        .info-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        #startSignup {
+            margin-top: 2rem;
+        }
+
+        #starfield-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform: scale(1.5);
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+        }
+
+        .zoom-in {
+            opacity: 1 !important;
+            transform: scale(1) !important;
+        }
+
+        .form-content {
+            position: relative;
+            padding-top: 2rem;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        #nextBtn, #signupForm button[type="submit"] {
+            width: 100px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="blackhole">
+        <div class="centerHover"><span>ENTER</span></div>
+    </div>
+    <div id="starfield-container">
+        <canvas id="starfield" width="3000" height="2000"></canvas>
+    </div>
+    <div id="signup-container">
+        <div class="container">
+            <div id="info-page" class="fade-in">
+                <h1>HACK CENTAURI</h1>
+                <div class="info-content">
+                    <p>Embark on an interstellar coding journey!</p>
+                    <ul>
+                        <li>🚀 Space-themed hackathon for high school students</li>
+                        <li>📍 Location: Novato, CA</li>
+                        <li>📅 Date: December 14th</li>
+                    </ul>
+                    <p>Are you ready to launch your ideas into the cosmos?</p>
+                </div>
+                <button id="startSignup" onclick="startSignup()">Begin Mission</button>
+            </div>
+            <div id="signup-form" class="hidden">
+                <h1>HACK CENTAURI</h1>
+                <div class="progress-bar">
+                    <div class="progress" id="progress"></div>
+                </div>
+                <div class="form-content">
+                    <form id="signupForm">
+                        <div id="step1" class="input-container fade-in">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" id="firstName" placeholder="First Name" required>
+                        </div>
+                        <div id="step2" class="input-container hidden">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" id="lastName" placeholder="Last Name" required>
+                        </div>
+                        <div id="step3" class="input-container hidden">
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input type="email" id="email" placeholder="Email" required>
+                        </div>
+                        <div id="step4" class="input-container hidden">
+                            <i class="fas fa-phone input-icon"></i>
+                            <input type="tel" id="phone" placeholder="Phone Number" required>
+                        </div>
+                        <div id="step5" class="input-container hidden">
+                            <i class="fab fa-discord input-icon"></i>
+                            <input type="text" id="discord" placeholder="Discord Username (Optional)">
+                        </div>
+                        <div id="step6" class="input-container hidden">
+                            <i class="fas fa-utensils input-icon"></i>
+                            <select id="dietary" required>
+                                <option value="">Dietary Restrictions</option>
+                                <option value="none">None</option>
+                                <option value="vegetarian">Vegetarian</option>
+                                <option value="vegan">Vegan</option>
+                                <option value="gluten-free">Gluten-Free</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div id="step7" class="input-container hidden">
+                            <div id="summary"></div>
+                        </div>
+                    </form>
+                    <div class="button-container">
+                        <button id="backBtn" class="back-btn hidden" onclick="prevStep()">Back</button>
+                        <button id="nextBtn" onclick="nextStep()">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 0;
+        const totalSteps = 7;
+
+        function startSignup() {
+            document.getElementById('info-page').classList.add('fade-out');
+            setTimeout(() => {
+                document.getElementById('info-page').classList.add('hidden');
+                document.getElementById('signup-form').classList.remove('hidden');
+                document.getElementById('signup-form').classList.add('fade-in');
+                nextStep();
+            }, 300);
+        }
+
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateProgressBar();
+                if (currentStep > 1) {
+                    document.getElementById('backBtn').classList.remove('hidden');
+                }
+                if (currentStep === totalSteps) {
+                    updateSummary();
+                    document.getElementById('nextBtn').textContent = 'Launch';
+                    document.getElementById('nextBtn').onclick = submitForm;
+                }
+                updateFormVisibility();
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateProgressBar();
+                if (currentStep === 1) {
+                    document.getElementById('backBtn').classList.add('hidden');
+                }
+                if (currentStep < totalSteps) {
+                    document.getElementById('nextBtn').textContent = 'Next';
+                    document.getElementById('nextBtn').onclick = nextStep;
+                }
+                updateFormVisibility();
+            }
+        }
+
+        function updateFormVisibility() {
+            for (let i = 1; i <= totalSteps; i++) {
+                const step = document.getElementById(`step${i}`);
+                if (i === currentStep) {
+                    step.classList.remove('hidden');
+                    step.classList.add('fade-in');
+                } else {
+                    step.classList.add('hidden');
+                    step.classList.remove('fade-in');
+                }
+            }
+        }
+
+        function updateProgressBar() {
+            const progress = document.getElementById('progress');
+            const percentage = ((currentStep - 1) / (totalSteps - 1)) * 100;
+            progress.style.width = `${percentage}%`;
+        }
+
+        function updateSummary() {
+            const summary = document.getElementById('summary');
+            summary.innerHTML = `
+                <h3>Summary:</h3>
+                <p><strong>Name:</strong> ${document.getElementById('firstName').value} ${document.getElementById('lastName').value}</p>
+                <p><strong>Email:</strong> ${document.getElementById('email').value}</p>
+                <p><strong>Phone:</strong> ${document.getElementById('phone').value}</p>
+                <p><strong>Discord:</strong> ${document.getElementById('discord').value || 'Not provided'}</p>
+                <p><strong>Dietary Restrictions:</strong> ${document.getElementById('dietary').value}</p>
+            `;
+        }
+
+        function submitForm() {
+            alert('Thank you for signing up!');
+        }
+
+        // Handle Enter key press
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && currentStep < totalSteps) {
+                e.preventDefault();
+                const currentInput = document.querySelector(`#step${currentStep} input, #step${currentStep} select`);
+                if (currentInput.value.trim() !== '') {
+                    nextStep();
+                }
+            }
+        });
+
+        // Remove auto-progression on input
+        const inputs = document.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                }
+            });
+        });
+
+        // Starfield effect
+        function getRandom(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function setCoordinate(c, maxWidth) {
+            if (c >= maxWidth) return c % maxWidth;
+            else if (c <= 0) return maxWidth + c;
+            else return c;
+        }
+
+        const canvas = document.getElementById("starfield");
+        const context = canvas.getContext("2d");
+        const colorrange = [0, 60, 240];
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * window.innerWidth;
+                this.y = Math.random() * window.innerHeight;
+                this.radius = Math.random() * 1.2;
+                this.hue = colorrange[getRandom(0, colorrange.length - 1)];
+                this.sat = getRandom(50, 100);
+                this.depth = getRandom(1, 3);
+            }
+
+            draw() {
+                context.beginPath();
+                context.arc(this.x, this.y, this.radius, 0, 369);
+                context.fillStyle = "hsl(" + this.hue + ", " + this.sat + "%, 88%)";
+                context.fill();
+            }
+
+            animate() {
+                switch (this.depth) {
+                    case 1:
+                        this.x = setCoordinate(this.x - 0.3, window.outerWidth);
+                        this.y = setCoordinate(this.y + 0.1, window.outerHeight);
+                        break;
+                    case 2:
+                        this.x = setCoordinate(this.x + 0.03, window.outerWidth);
+                        this.y = setCoordinate(this.y + 0.5, window.outerHeight);
+                        break;
+                    case 3:
+                        this.x = setCoordinate(this.x - 0.04, window.outerWidth);
+                        this.y = setCoordinate(this.y + 0.7, window.outerHeight);
+                        break;
+                }
+            }
+
+            parallax(_w, _h, _mouseX, _mouseY) {
+                switch (this.depth) {
+                    case 1:
+                        this.x = setCoordinate(this.x - (_mouseX - _w) * 0.01, window.outerWidth);
+                        this.y = setCoordinate(this.y - (_mouseY - _h) * 0.01, window.outerHeight);
+                        break;
+                    case 2:
+                        this.x = setCoordinate(this.x - (_mouseX - _w) * 0.02, window.outerWidth);
+                        this.y = setCoordinate(this.y - (_mouseY - _h) * 0.02, window.outerHeight);
+                        break;
+                    case 3:
+                        this.x = setCoordinate(this.x - (_mouseX - _w) * 0.05, window.outerWidth);
+                        this.y = setCoordinate(this.y - (_mouseY - _h) * 0.05, window.outerHeight);
+                        break;
+                }
+            }
+        }
+
+        class Stars {
+            constructor() {
+                this.generate();
+            }
+
+            animate() {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                this.starArray.forEach((star) => {
+                    star.animate();
+                    star.draw();
+                });
+            }
+
+            parallax(e) {
+                let _w = window.innerWidth / 2;
+                let _h = window.innerHeight / 2;
+                let _mouseX = e.clientX;
+                let _mouseY = e.clientY;
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                for (let i = 0; i < this.size; ++i) {
+                    this.starArray[i].parallax(_w, _h, _mouseX, _mouseY);
+                    this.starArray[i].draw();
+                }
+            }
+
+            scroll(scrl) {
+                this.lastScroll = scrl - this.lastScroll;
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                for (let i = 0; i < this.size; ++i) {
+                    let _w = window.innerWidth / 2;
+                    let _h = window.innerHeight / 2;
+                    this.starArray[i].parallax(_w, _h, this.lastScroll, _h);
+                    this.starArray[i].draw();
+                }
+            }
+
+            onResize() {
+                this.generate();
+            }
+
+            generate() {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                this.size = Math.round((window.outerWidth * window.outerHeight) / 1000);
+                this.starArray = new Array(this.size);
+                this.lastScroll = 0;
+                for (let i = 0; i < this.size; i++) {
+                    this.starArray[i] = new Star();
+                    this.starArray[i].draw();
+                }
+            }
+        }
+
+        function main() {
+            let stars = new Stars();
+            window.addEventListener("resize", () => stars.onResize());
+            
+            document.addEventListener("mousemove", (e) => {
+                stars.parallax(e);
+            });
+            
+            let content = document.getElementById("content");
+            if (content) {
+                content.addEventListener("scroll", (e) => {
+                    stars.scroll(content.scrollLeft);
+                });
+            }
+        }
+
+        function blackhole(element) {
+            var h = $(element).height(),
+                w = $(element).width(),
+                cw = w,
+                ch = h,
+                maxorbit = 255, // distance from center
+                centery = ch / 2,
+                centerx = cw / 2;
+
+            var startTime = new Date().getTime();
+            var currentTime = 0;
+
+            var stars = [],
+                collapse = false, // if hovered
+                expanse = false; // if clicked
+
+            var canvas = $('<canvas/>').attr({width: cw, height: ch}).appendTo(element),
+                context = canvas.get(0).getContext("2d");
+
+            context.globalCompositeOperation = "multiply";
+
+            function setDPI(canvas, dpi) {
+                // Set up CSS size if it's not set up already
+                if (!canvas.get(0).style.width)
+                    canvas.get(0).style.width = canvas.get(0).width + 'px';
+                if (!canvas.get(0).style.height)
+                    canvas.get(0).style.height = canvas.get(0).height + 'px';
+
+                var scaleFactor = dpi / 96;
+                canvas.get(0).width = Math.ceil(canvas.get(0).width * scaleFactor);
+                canvas.get(0).height = Math.ceil(canvas.get(0).height * scaleFactor);
+                var ctx = canvas.get(0).getContext('2d');
+                ctx.scale(scaleFactor, scaleFactor);
+            }
+
+            function rotate(cx, cy, x, y, angle) {
+                var radians = angle,
+                    cos = Math.cos(radians),
+                    sin = Math.sin(radians),
+                    nx = (cos * (x - cx)) + (sin * (y - cy)) + cx,
+                    ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
+                return [nx, ny];
+            }
+
+            setDPI(canvas, 192);
+
+            var star = function(){
+                // Get a weighted random number, so that the majority of stars will form in the center of the orbit
+                var rands = [];
+                rands.push(Math.random() * (maxorbit/2) + 1);
+                rands.push(Math.random() * (maxorbit/2) + maxorbit);
+
+                this.orbital = (rands.reduce(function(p, c) {
+                    return p + c;
+                }, 0) / rands.length);
+
+                this.x = centerx;
+                this.y = centery + this.orbital;
+
+                this.yOrigin = centery + this.orbital; 
+                this.speed = (Math.floor(Math.random() * 2.5) + 1.5)*Math.PI/180;
+                this.rotation = 0;
+                this.startRotation = (Math.floor(Math.random() * 360) + 1)*Math.PI/180;
+
+                this.id = stars.length;
+
+                this.collapseBonus = this.orbital - (maxorbit * 0.7);
+                if(this.collapseBonus < 0){
+                    this.collapseBonus = 0;
+                }
+
+                stars.push(this);
+                this.color = 'rgba(255,255,255,'+ (1 - ((this.orbital) / 255)) +')';
+
+                this.hoverPos = centery + (maxorbit/2) + this.collapseBonus;
+                this.expansePos = centery + (this.id%100)*-10 + (Math.floor(Math.random() * 20) + 1);
+
+                this.prevR = this.startRotation;
+                this.prevX = this.x;
+                this.prevY = this.y;
+            }
+
+            star.prototype.draw = function(){
+                if(!expanse){
+                    this.rotation = this.startRotation + (currentTime * this.speed);
+                    if(!collapse){
+                        if(this.y > this.yOrigin){
+                            this.y-= 2.5;
+                        }
+                        if(this.y < this.yOrigin-4){
+                            this.y+= (this.yOrigin - this.y) / 10;
+                        }
+                    } else {
+                        this.trail = 1;
+                        if(this.y > this.hoverPos){
+                            this.y-= (this.hoverPos - this.y) / -5;
+                        }
+                        if(this.y < this.hoverPos-4){
+                            this.y+= 2.5;
+                        }
+                    }
+                } else {
+                    this.rotation = this.startRotation + (currentTime * (this.speed / 2));
+                    if(this.y > this.expansePos){
+                        this.y-= Math.floor(this.expansePos - this.y) / -140;
+                    }
+                }
+
+                context.save();
+                context.fillStyle = this.color;
+                context.strokeStyle = this.color;
+                context.beginPath();
+                var oldPos = rotate(centerx,centery,this.prevX,this.prevY,-this.prevR);
+                context.moveTo(oldPos[0],oldPos[1]);
+                context.translate(centerx, centery);
+                context.rotate(this.rotation);
+                context.translate(-centerx, -centery);
+                context.lineTo(this.x,this.y);
+                context.stroke();
+                context.restore();
+
+                this.prevR = this.rotation;
+                this.prevX = this.x;
+                this.prevY = this.y;
+            }
+
+            $('.centerHover').on('click', function(){
+                collapse = false;
+                expanse = true;
+
+                $(this).addClass('open');
+                setTimeout(function(){
+                    $('#blackhole').addClass('zoom-out');
+                    setTimeout(function() {
+                        $('#blackhole').hide();
+                        $('#starfield-container').show();
+                        setTimeout(function() {
+                            $('#starfield-container').addClass('zoom-in');
+                            setTimeout(function() {
+                                $('#signup-container').css('opacity', '1');
+                            }, 500);
+                        }, 50);
+                        initStarfield();
+                    }, 2000);
+                }, 500);
+            });
+
+            $('.centerHover').on('mouseover', function(){
+                if(expanse == false){
+                    collapse = true;
+                }
+            });
+            $('.centerHover').on('mouseout', function(){
+                if(expanse == false){
+                    collapse = false;
+                }
+            });
+
+            window.requestFrame = (function(){
+                return  window.requestAnimationFrame       ||
+                    window.webkitRequestAnimationFrame ||
+                    window.mozRequestAnimationFrame    ||
+                    function( callback ){
+                    window.setTimeout(callback, 1000 / 60);
+                };
+            })();
+
+            function loop(){
+                var now = new Date().getTime();
+                currentTime = (now - startTime) / 50;
+
+                context.fillStyle = 'rgba(25,25,25,0.2)';
+                context.fillRect(0, 0, cw, ch);
+
+                for(var i = 0; i < stars.length; i++){
+                    if(stars[i] != stars){
+                        stars[i].draw();
+                    }
+                }
+
+                requestFrame(loop);
+            }
+
+            function init(time){
+                context.fillStyle = 'rgba(25,25,25,1)';
+                context.fillRect(0, 0, cw, ch);
+                for(var i = 0; i < 2500; i++){
+                    new star();
+                }
+                loop();
+            }
+            init();
+        }
+
+        $(document).ready(function() {
+            blackhole('#blackhole');
+        });
+
+        function initStarfield() {
+            // Initialize the starfield effect
+            main();
+            // Adjust the canvas size to fit the screen
+            resizeCanvas();
+        }
+
+        function resizeCanvas() {
+            const canvas = document.getElementById('starfield');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+    </script>
+</body>
+</html>
