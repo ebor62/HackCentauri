@@ -229,7 +229,7 @@
         }
 
         .centerHover:hover span:before,
-        .centerHover:hover span:after {
+        .centerHover span:after {
             background-color: #DDD;
         }
 
@@ -320,30 +320,30 @@
                     <div class="progress" id="progress"></div>
                 </div>
                 <div class="form-content">
-                    <form id="signupForm">
+                    <form id="signupForm" action="https://script.google.com/macros/s/AKfycbyaSTmppzbZ8fZH3fZDfVH5zYhKUKwhQSxyR1syHp-7Nr0AVlDWGCh0pwv8SHZH4t1f/exec" method="post">
                         <div id="step1" class="input-container fade-in">
                             <i class="fas fa-user input-icon"></i>
-                            <input type="text" id="firstName" placeholder="First Name" required>
+                            <input type="text" id="firstName" name="firstname" placeholder="First Name" required>
                         </div>
                         <div id="step2" class="input-container hidden">
                             <i class="fas fa-user input-icon"></i>
-                            <input type="text" id="lastName" placeholder="Last Name" required>
+                            <input type="text" id="lastName" name="lastname" placeholder="Last Name" required>
                         </div>
                         <div id="step3" class="input-container hidden">
                             <i class="fas fa-envelope input-icon"></i>
-                            <input type="email" id="email" placeholder="Email" required>
+                            <input type="email" id="email" name="email" placeholder="Email" required>
                         </div>
                         <div id="step4" class="input-container hidden">
                             <i class="fas fa-phone input-icon"></i>
-                            <input type="tel" id="phone" placeholder="Phone Number" required>
+                            <input type="tel" id="phone" name="phone" placeholder="Phone Number" required>
                         </div>
                         <div id="step5" class="input-container hidden">
                             <i class="fab fa-discord input-icon"></i>
-                            <input type="text" id="discord" placeholder="Discord Username (Optional)">
+                            <input type="text" id="discord" name="discord" placeholder="Discord Username (Optional)">
                         </div>
                         <div id="step6" class="input-container hidden">
                             <i class="fas fa-utensils input-icon"></i>
-                            <select id="dietary" required>
+                            <select id="dietary" name="diet" required>
                                 <option value="">Dietary Restrictions</option>
                                 <option value="none">None</option>
                                 <option value="vegetarian">Vegetarian</option>
@@ -355,11 +355,11 @@
                         <div id="step7" class="input-container hidden">
                             <div id="summary"></div>
                         </div>
+                        <div class="button-container">
+                            <button id="backBtn" class="back-btn hidden" onclick="prevStep()">Back</button>
+                            <button id="nextBtn" onclick="nextStep()">Next</button>
+                        </div>
                     </form>
-                    <div class="button-container">
-                        <button id="backBtn" class="back-btn hidden" onclick="prevStep()">Back</button>
-                        <button id="nextBtn" onclick="nextStep()">Next</button>
-                    </div>
                 </div>
             </div>
         </div>
