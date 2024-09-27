@@ -320,7 +320,7 @@
                     <div class="progress" id="progress"></div>
                 </div>
                 <div class="form-content">
-                    <form id="signupForm" action="https://script.google.com/macros/s/AKfycbzoOmYAD-Bd-E1BCEwHBKuR0_2zVsm5QiMZakzSIescf7hRjtxAkpxfDln1lI6B5p_o/exec" method="post">
+                    <form id="signupForm">
                         <div id="step1" class="input-container fade-in">
                             <i class="fas fa-user input-icon"></i>
                             <input type="text" id="firstName" name="firstname" placeholder="First Name" required>
@@ -442,7 +442,31 @@
         }
 
         function submitForm() {
-            alert('Thank you for signing up!');
+            const formData = {
+                firstname: document.getElementById('firstName').value,
+                lastname: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                discord: document.getElementById('discord').value,
+                diet: document.getElementById('dietary').value
+            };
+
+            fetch('https://sheetdb.io/api/v1/5s2p1b78y8wqt', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                alert('Thank you for signing up!');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
         }
 
         // Handle Enter key press
