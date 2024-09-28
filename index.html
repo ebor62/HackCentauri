@@ -37,7 +37,7 @@
             border-radius: 20px;
             border: 2px solid #ffffff;
             text-align: center;
-            max-width: 400px;
+            max-width: 700px;
             width: 90%;
             position: relative;
             overflow: hidden;
@@ -51,114 +51,6 @@
             text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
             margin-bottom: 1.5rem;
         }
-        .input-container {
-            position: relative;
-            margin-bottom: 1.5rem;
-            display: flex;
-            justify-content: center;
-        }
-        input, select {
-            width: 80%;
-            padding: 0.8rem 1rem 0.8rem 2.5rem;
-            background-color: rgba(0, 0, 0, 0.5);
-            border: 2px solid #ffffff;
-            color: #ffffff;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            font-family: 'Orbitron', sans-serif;
-        }
-        input:focus, select:focus {
-            outline: none;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-        }
-        .input-icon {
-            position: absolute;
-            left: 12%;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #ffffff;
-            font-size: 1rem;
-        }
-        button {
-            background-color: #ffffff;
-            color: #000000;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            cursor: pointer;
-            border-radius: 25px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            font-family: 'Orbitron', sans-serif;
-        }
-        button:hover {
-            background-color: #cccccc;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
-            transform: translateY(-3px);
-        }
-        .hidden {
-            display: none;
-        }
-        .fade-in {
-            animation: fadeIn 0.3s ease-out forwards;
-        }
-        .fade-out {
-            animation: fadeOut 0.3s ease-in forwards;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeOut {
-            from { opacity: 1; transform: translateY(0); }
-            to { opacity: 0; transform: translateY(-20px); }
-        }
-        .back-btn {
-            background-color: transparent;
-            color: #ffffff;
-            border: 2px solid #ffffff;
-            padding: 0.8rem 1.5rem;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-            margin-right: 1rem;
-        }
-        .back-btn:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        #summary {
-            text-align: left;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-        }
-        #summary h3 {
-            margin-bottom: 0.5rem;
-        }
-        #summary p {
-            margin: 0.3rem 0;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 4px;
-            background-color: rgba(255, 255, 255, 0.2);
-            margin-bottom: 1.5rem;
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .progress {
-            width: 0;
-            height: 100%;
-            background-color: #ffffff;
-            transition: width 0.3s ease;
-        }
-
         #blackhole {
             height: 100%;
             width: 100%;
@@ -233,28 +125,6 @@
             background-color: #DDD;
         }
 
-        .info-content {
-            text-align: left;
-            margin-bottom: 2rem;
-        }
-
-        .info-content p {
-            margin-bottom: 1rem;
-        }
-
-        .info-content ul {
-            list-style-type: none;
-            padding-left: 1rem;
-        }
-
-        .info-content li {
-            margin-bottom: 0.5rem;
-        }
-
-        #startSignup {
-            margin-top: 2rem;
-        }
-
         #starfield-container {
             position: fixed;
             top: 0;
@@ -270,26 +140,6 @@
             opacity: 1 !important;
             transform: scale(1) !important;
         }
-
-        .form-content {
-            position: relative;
-            padding-top: 2rem;
-        }
-
-        .button-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 1rem;
-        }
-
-        #nextBtn, #signupForm button[type="submit"] {
-            width: 100px;
-            height: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
     </style>
 </head>
 <body>
@@ -301,195 +151,12 @@
     </div>
     <div id="signup-container">
         <div class="container">
-            <div id="info-page" class="fade-in">
-                <h1>HACK CENTAURI</h1>
-                <div class="info-content">
-                    <p>Embark on an interstellar coding journey!</p>
-                    <ul>
-                        <li>🚀 Space-themed hackathon for high school students</li>
-                        <li>📍 Location: Novato, CA</li>
-                        <li>📅 Date: December 14th</li>
-                    </ul>
-                    <p>Are you ready to launch your ideas into the cosmos?</p>
-                </div>
-                <button id="startSignup" onclick="startSignup()">Begin Mission</button>
-            </div>
-            <div id="signup-form" class="hidden">
-                <h1>HACK CENTAURI</h1>
-                <div class="progress-bar">
-                    <div class="progress" id="progress"></div>
-                </div>
-                <div class="form-content">
-                    <form id="signupForm">
-                        <div id="step1" class="input-container fade-in">
-                            <i class="fas fa-user input-icon"></i>
-                            <input type="text" id="firstName" name="firstname" placeholder="First Name" required>
-                        </div>
-                        <div id="step2" class="input-container hidden">
-                            <i class="fas fa-user input-icon"></i>
-                            <input type="text" id="lastName" name="lastname" placeholder="Last Name" required>
-                        </div>
-                        <div id="step3" class="input-container hidden">
-                            <i class="fas fa-envelope input-icon"></i>
-                            <input type="email" id="email" name="email" placeholder="Email" required>
-                        </div>
-                        <div id="step4" class="input-container hidden">
-                            <i class="fas fa-phone input-icon"></i>
-                            <input type="tel" id="phone" name="phone" placeholder="Phone Number" required>
-                        </div>
-                        <div id="step5" class="input-container hidden">
-                            <i class="fab fa-discord input-icon"></i>
-                            <input type="text" id="discord" name="discord" placeholder="Discord Username (Optional)">
-                        </div>
-                        <div id="step6" class="input-container hidden">
-                            <i class="fas fa-utensils input-icon"></i>
-                            <select id="dietary" name="diet" required>
-                                <option value="">Dietary Restrictions</option>
-                                <option value="none">None</option>
-                                <option value="vegetarian">Vegetarian</option>
-                                <option value="vegan">Vegan</option>
-                                <option value="gluten-free">Gluten-Free</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                        <div id="step7" class="input-container hidden">
-                            <div id="summary"></div>
-                        </div>
-                        <div class="button-container">
-                            <button id="backBtn" class="back-btn hidden" onclick="prevStep()">Back</button>
-                            <button id="nextBtn" onclick="nextStep()">Next</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+            <h1>HACK CENTAURI</h1>
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeYag6yeWsVZcoOBXr4ifVOPCCz3tF6ZdcHv2Ps6xxbIKogjA/viewform?embedded=true" width="640" height="546" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
         </div>
     </div>
 
     <script>
-        let currentStep = 0;
-        const totalSteps = 7;
-
-        function startSignup() {
-            document.getElementById('info-page').classList.add('fade-out');
-            setTimeout(() => {
-                document.getElementById('info-page').classList.add('hidden');
-                document.getElementById('signup-form').classList.remove('hidden');
-                document.getElementById('signup-form').classList.add('fade-in');
-                nextStep();
-            }, 300);
-        }
-
-        function nextStep() {
-            if (currentStep < totalSteps) {
-                currentStep++;
-                updateProgressBar();
-                if (currentStep > 1) {
-                    document.getElementById('backBtn').classList.remove('hidden');
-                }
-                if (currentStep === totalSteps) {
-                    updateSummary();
-                    document.getElementById('nextBtn').textContent = 'Launch';
-                    document.getElementById('nextBtn').onclick = submitForm;
-                }
-                updateFormVisibility();
-            }
-        }
-
-        function prevStep() {
-            if (currentStep > 1) {
-                currentStep--;
-                updateProgressBar();
-                if (currentStep === 1) {
-                    document.getElementById('backBtn').classList.add('hidden');
-                }
-                if (currentStep < totalSteps) {
-                    document.getElementById('nextBtn').textContent = 'Next';
-                    document.getElementById('nextBtn').onclick = nextStep;
-                }
-                updateFormVisibility();
-            }
-        }
-
-        function updateFormVisibility() {
-            for (let i = 1; i <= totalSteps; i++) {
-                const step = document.getElementById(`step${i}`);
-                if (i === currentStep) {
-                    step.classList.remove('hidden');
-                    step.classList.add('fade-in');
-                } else {
-                    step.classList.add('hidden');
-                    step.classList.remove('fade-in');
-                }
-            }
-        }
-
-        function updateProgressBar() {
-            const progress = document.getElementById('progress');
-            const percentage = ((currentStep - 1) / (totalSteps - 1)) * 100;
-            progress.style.width = `${percentage}%`;
-        }
-
-        function updateSummary() {
-            const summary = document.getElementById('summary');
-            summary.innerHTML = `
-                <h3>Summary:</h3>
-                <p><strong>Name:</strong> ${document.getElementById('firstName').value} ${document.getElementById('lastName').value}</p>
-                <p><strong>Email:</strong> ${document.getElementById('email').value}</p>
-                <p><strong>Phone:</strong> ${document.getElementById('phone').value}</p>
-                <p><strong>Discord:</strong> ${document.getElementById('discord').value || 'Not provided'}</p>
-                <p><strong>Dietary Restrictions:</strong> ${document.getElementById('dietary').value}</p>
-            `;
-        }
-
-        function submitForm() {
-            const formData = {
-                firstname: document.getElementById('firstName').value,
-                lastname: document.getElementById('lastName').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                discord: document.getElementById('discord').value,
-                diet: document.getElementById('dietary').value
-            };
-
-            fetch('https://sheetdb.io/api/v1/5s2p1b78y8wqt', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                alert('Thank you for signing up!');
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                alert('An error occurred. Please try again.');
-            });
-        }
-
-        // Handle Enter key press
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && currentStep < totalSteps) {
-                e.preventDefault();
-                const currentInput = document.querySelector(`#step${currentStep} input, #step${currentStep} select`);
-                if (currentInput.value.trim() !== '') {
-                    nextStep();
-                }
-            }
-        });
-
-        // Remove auto-progression on input
-        const inputs = document.querySelectorAll('input, select');
-        inputs.forEach(input => {
-            input.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                }
-            });
-        });
-
         // Starfield effect
         function getRandom(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
