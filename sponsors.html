@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hack Centauri Sponsors</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Lato', sans-serif;
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 100px 0;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+        }
+
+        .typing-container {
+            font-family: 'Source Code Pro', monospace;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .typing-container h2 {
+            font-size: 24px;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 2px solid white;
+            display: inline;
+        }
+
+        .typing-container p {
+            font-size: 18px;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 2px solid white;
+            display: inline;
+        }
+
+        .cursor::after {
+            content: '';
+            display: inline-block;
+            margin-left: 3px;
+            background-color: white;
+            animation-name: blink;
+            animation-duration: 0.5s;
+            animation-iteration-count: infinite;
+        }
+
+        h2.cursor::after {
+            height: 20px;
+            width: 10px;
+        }
+
+        p.cursor::after {
+            height: 12px;
+            width: 6px;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            49% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: transparent;
+            color: #4da6ff;
+            border: 2px solid #4da6ff;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            color: #fff;
+            border-color: #fff;
+        }
+
+        .section {
+            margin: 100px 0;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .contact-form button {
+            align-self: flex-start;
+            padding: 10px 20px;
+            background: transparent;
+            color: #4da6ff;
+            border: 2px solid #4da6ff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .contact-form button:hover {
+            color: #fff;
+            border-color: #fff;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.8em;
+        }
+
+        .sponsors {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .sponsor-logo {
+            max-width: 200px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+
+    <div class="container">
+        <section id="home" class="hero">
+            <h1>Hack Centauri Sponsors</h1>
+            <div class="typing-container" id="output">
+                <h2 class="cursor"></h2>
+                <p></p>
+            </div>
+        </section>
+
+        <section id="sponsors" class="section">
+            <div class="sponsors">
+                <img src="https://bruinhacks.github.io/hcb.png" alt="Hack Club" class="sponsor-logo">
+                <img src="https://i.ibb.co/NCrBPqF/images-removebg-preview.png" alt="Sponsor" class="sponsor-logo">
+            </div>
+        </section>
+
+        <section id="sponsor-benefits" class="section">
+            <h2>Why Sponsor Hack Centauri?</h2>
+            <p>As a sponsor, you will have your brand promoted, access opportunities to send speakers from your company, and encourage the next generation of space thinkers.</p>
+        </section>
+
+        <section id="contact" class="section">
+            <h2>Contact Us</h2>
+            <form class="contact-form">
+                <input type="text" placeholder="Name" required>
+                <input type="email" placeholder="Email" required>
+                <textarea placeholder="Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </section>
+
+        <footer>
+            <p>&copy; 2024 Hack Centauri. Fiscally sponsored by the 501(c)(3) Hack Club.</p>
+        </footer>
+    </div>
+
+    <script>
+        var ctx = canvas.getContext("2d");
+        const stars = [];
+        var dir = Math.PI;
+        var w;
+        var h;
+        const starCount = 2000;
+        const starSize = 2;
+        const attractorSize = 100;
+        const starSize2 = starSize / 2;
+        const attractorSize2 = attractorSize / 2;
+        const scrollSpeed = 0.2;
+        const directionChangeRate = 0.2;
+        var widthModulo;
+        var heightModulo;
+        var grad;
+        var grad1;
+        const pointer = { x : 0, y : 0}
+        const randI = (min, max = min + (min = 0)) => (Math.random() * (max - min) + min) | 0;
+        const rand  = (min, max = min + (min = 0)) => Math.random() * (max - min) + min;
+        const randG = (p) => Math.random() * Math.random() * Math.random();
+        const ease = (v,p=2) => Math.pow(v < 0 ? 0 : v > 1 ? 1 : v, p);
+        const doFor = (count, callback) => {var i = 0; while (i < count) { callback(i ++) } };
+        pageResize();
+        function pageResize(){
+            w = canvas.width = innerWidth;
+            h = canvas.height = innerHeight;
+            widthModulo = w + starSize + attractorSize;
+            heightModulo = h + starSize + attractorSize;
+            pointer.x = w / 2;
+            pointer.y = h / 2;
+            grad = ctx.createLinearGradient(0,0,0,h);
+            grad1 = ctx.createRadialGradient(w/2,h/2,0,w/2,h/2,Math.min(attractorSize*2,w,h)/2);
+            doFor(16,i=>{
+              const c = ((i/15) * 32) | 0;
+              grad1.addColorStop(ease(i/15,1/40),"rgba(0,0,0,"+(1-(i/15))+")")
+              grad.addColorStop(ease(i/15,1/4),"rgb(0,0,"+c+")");  
+            })  
+            grad.addColorStop(0,"black");
+            grad.addColorStop(1,"#003");
+            grad1.addColorStop(0,"rgba(0,0,0,1)");
+            grad1.addColorStop(1,"rgba(0,0,0,0)");  
+        }
+
+        var i;
+        for (i = 0; i < starCount; i++) {
+          var z = randG();
+          var col = Math.min(255,((200 * z)|0 )+ 60);
+          stars.push({
+            x: randI(w * 1000),
+            y: randI(h * 1000),
+            v: z  + 0.5,
+            col : "rgb("+col+","+col+","+col+")",
+          });
+        }
+        stars.sort((a,b)=>a.v - b.v);
+
+        function animation (timer) {
+          var star, dx, dy, x, y, i, xx, yy, d;
+          if(w !== innerWidth || h !== innerHeight){
+            pageResize(); 
+          }
+
+          dir = Math.PI / 2; // Fixed direction for downward scrolling
+
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, w, h);
+          ctx.fillStyle = grad1;
+          ctx.fillRect(0, 0, w, h);
+          ctx.globalCompositeOperation = "lighter";
+
+          dx = Math.cos(dir) * scrollSpeed;
+          dy = Math.sin(dir) * scrollSpeed;
+          
+          // Get scroll position
+          var scrollY = window.pageYOffset;
+
+          for (i = 0; i < starCount; i += 1) {
+            star = stars[i];
+            ctx.fillStyle = star.col;
+            star.x += star.v * dx;
+            star.y += star.v * dy + scrollY * 0.05 * star.v; // Add scroll effect
+            x = ((star.x % widthModulo) + widthModulo) % widthModulo - (starSize2 + attractorSize2);
+            y = ((star.y % heightModulo) + heightModulo) % heightModulo - (starSize2 + attractorSize2);
+            xx = pointer.x - x;
+            yy = pointer.y - y;
+            d = Math.sqrt(xx * xx + yy * yy);
+            x -= (xx / d) * attractorSize2 * star.v;
+            y -= (yy / d) * attractorSize2 *  star.v;
+            ctx.fillRect(x, y, starSize * star.v, starSize * star.v);
+          }
+          ctx.globalCompositeOperation = "source-over";
+          requestAnimationFrame(animation);
+        }
+        requestAnimationFrame(animation);
+
+        // Add scroll event listener
+        window.addEventListener('scroll', function() {
+            requestAnimationFrame(animation);
+        });
+
+        // Typing effect
+        var i = 0,
+            a = 0,
+            isBackspacing = false,
+            isParagraph = false;
+
+        var textArray = [
+            "Why did the astronaut break up with his girlfriend?|He needed space.", 
+            "How do you get a baby astronaut to sleep?|You rock-et!", 
+            "Why don’t aliens visit Earth?|Because we have terrible ratings—they’ve seen our planet on Yelp.",
+            "How do you organize a space party?|You planet!",
+            "How do astronauts pay for their coffee?|With Starbucks!",
+            "What’s an astronaut’s favorite part of a computer?|The space bar!",
+            "You've just made the leap to hyperspace!|See you at Hack Centauri on December 14th!"
+        ];
+
+        var speedForward = 100,
+            speedWait = 1000,
+            speedBetweenLines = 1000,
+            speedBackspace = 25;
+
+        typeWriter("output", textArray);
+
+        function typeWriter(id, ar) {
+            var element = document.getElementById(id),
+                aString = ar[a],
+                eHeader = element.querySelector("h2"),
+                eParagraph = element.querySelector("p");
+            
+            if (!isBackspacing) {
+                if (i < aString.length) {
+                    if (aString.charAt(i) == "|") {
+                        isParagraph = true;
+                        eHeader.classList.remove("cursor");
+                        eParagraph.classList.add("cursor");
+                        i++;
+                        setTimeout(function() { typeWriter(id, ar); }, speedBetweenLines);
+                    } else {
+                        if (!isParagraph) {
+                            eHeader.textContent += aString.charAt(i);
+                        } else {
+                            eParagraph.textContent += aString.charAt(i);
+                        }
+                        i++;
+                        setTimeout(function() { typeWriter(id, ar); }, speedForward);
+                    }
+                } else if (i == aString.length) {
+                    isBackspacing = true;
+                    setTimeout(function() { typeWriter(id, ar); }, speedWait);
+                }
+            } else {
+                if (eParagraph.textContent.length > 0 || eHeader.textContent.length > 0) {
+                    if (eParagraph.textContent.length > 0) {
+                        eParagraph.textContent = eParagraph.textContent.substring(0, eParagraph.textContent.length - 1);
+                    } else if (eHeader.textContent.length > 0) {
+                        eParagraph.classList.remove("cursor");
+                        eHeader.classList.add("cursor");
+                        eHeader.textContent = eHeader.textContent.substring(0, eHeader.textContent.length - 1);
+                    }
+                    setTimeout(function() { typeWriter(id, ar); }, speedBackspace);
+                } else {
+                    isBackspacing = false;
+                    i = 0;
+                    isParagraph = false;
+                    a = (a + 1) % ar.length;
+                    setTimeout(function() { typeWriter(id, ar); }, 50);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
