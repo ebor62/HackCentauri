@@ -110,6 +110,25 @@
             border-color: #fff;
         }
 
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: inline-block;
+            padding: 12px 24px;
+            background: transparent;
+            color: #4da6ff;
+            border: 2px solid #4da6ff;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            color: #fff;
+            border-color: #fff;
+        }
+
         .section {
             margin: 100px 0;
         }
@@ -163,12 +182,196 @@
             max-width: 200px;
             height: auto;
         }
+
+        /* Solar System Animation */
+        .solar-system {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 300px;
+            height: 300px;
+            transform: scale(0.4);
+            z-index: 100;
+            transition: opacity 0.3s ease;
+            opacity: 1;
+        }
+
+        .solar-system.hidden {
+            opacity: 0;
+        }
+
+        .planets div {
+            display: inline-block;
+            position: absolute;
+        }
+
+        .ring {
+            border: 1px dashed rgba(255, 255, 255, 0.5);   
+            transform: rotate(0);    
+            box-shadow: none;
+        }
+         
+        .one {
+            width: 300px;
+            height: 300px;
+            border-radius: 200px;
+            left: -110px;
+            top: -110px;
+        }
+
+        .two {
+            width: 52px;
+            height: 52px;
+            border-radius: 50px;
+            background: #8edd6f;
+            top: 16px;
+            left: -132px;
+            transform-origin: 26px 26px;
+            animation: spin 50s infinite linear;
+        }
+
+        .two > .ring {
+            width: 120px;
+            height: 120px;
+            border-radius: 120px;
+            top: -35px;
+            left: -35px;
+        }
+
+        .three {
+            width: 30px;
+            height: 30px;
+            border-radius: 25px;
+            background: #5be6ff;
+            top: 25px;
+            right: -122px;
+            transform-origin: 15px 15px;
+            animation: spin 70s infinite linear;
+        }
+
+        .three > .ring {
+            width: 77px;
+            height: 77px;
+            border-radius: 80px;
+            top: -22px;
+            left: -22px;
+        }
+
+        .four {
+            width: 16px;
+            height: 16px;
+            border-radius: 16px;
+            background: #dda1f9;
+            top: -18px;
+            left: -18px;
+            transform-origin: 8px 8px;
+            animation: spin 50s infinite linear;
+        }
+
+        .five {
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+            background: #b58579;
+            top: -30px;
+            left: -30px;
+            transform-origin: 5px 5px;
+        }
+
+        .six {
+            width: 20px;
+            height: 20px;
+            border-radius: 10px;
+            background: #7dfffd;
+            top: -50px;
+            left: -50px;
+            transform-origin: 10px 10px;
+        }
+
+        .seven {
+            width: 30px;
+            height: 30px;
+            border-radius: 50px;
+            background: #fff;
+            top: -30px;
+            left: -30px;
+            transform-origin: 15px 15px;
+        }
+
+        .slow > .ring {
+            width: 117px;
+            height: 117px;
+            border-radius: 80px;
+            top: -42px;
+            left: -42px;
+        }
+
+        .fast > .ring {
+            width: 152px;
+            height: 152px;
+            border-radius: 80px;
+            top: -62px;
+            left: -62px;
+        }
+
+        .sun {
+            width: 80px;
+            height: 80px;
+            border-radius: 80px;
+            top: 60px;
+            left: 60px;
+            display: inline-block;
+            position: absolute;
+            box-shadow: 0 0 120px #f1da36, 0 0 60px #f2ad00, 0 0 10px #c96800, 0 0 200px #feff8f;
+            background: radial-gradient(ellipse at center, #fcf3a1 0%, #f1da36 100%);
+            animation: spin 100s infinite linear;
+        }
+
+        .slow {
+            animation: spin 10s infinite linear;
+        }
+
+        .fast {
+            animation: spin 20s infinite linear;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 <body>
     <canvas id="canvas"></canvas>
 
     <div class="container">
+        <div class="solar-system">
+            <div class="planets sun">
+                <div class="one ring"></div>
+                <div class="two">
+                    <div class="ring"></div>
+                    <div class="seven"></div>   
+                </div>
+                <div class="three">
+                    <div class="ring"></div>
+                    <div class="four"></div>
+                </div>
+                <div class="three slow">
+                    <div class="ring"></div>
+                    <div class="five"></div>
+                </div>
+                <div class="three fast">
+                    <div class="ring"></div>
+                    <div class="six"></div>
+                </div>
+            </div>
+        </div>
+
+        <a href="index.html" class="back-button">Back</a>
         <section id="home" class="hero">
             <h1>Hack Centauri Sponsors</h1>
             <div class="typing-container" id="output">
@@ -303,6 +506,14 @@
         // Add scroll event listener
         window.addEventListener('scroll', function() {
             requestAnimationFrame(animation);
+            
+            // Handle solar system visibility
+            const solarSystem = document.querySelector('.solar-system');
+            if (window.scrollY > 0) {
+                solarSystem.classList.add('hidden');
+            } else {
+                solarSystem.classList.remove('hidden');
+            }
         });
 
         // Typing effect
@@ -314,10 +525,10 @@
         var textArray = [
             "Why did the astronaut break up with his girlfriend?|He needed space.", 
             "How do you get a baby astronaut to sleep?|You rock-et!", 
-            "Why don’t aliens visit Earth?|Because we have terrible ratings—they’ve seen our planet on Yelp.",
+            "Why don't aliens visit Earth?|Because we have terrible ratings—they've seen our planet on Yelp.",
             "How do you organize a space party?|You planet!",
             "How do astronauts pay for their coffee?|With Starbucks!",
-            "What’s an astronaut’s favorite part of a computer?|The space bar!",
+            "What's an astronaut's favorite part of a computer?|The space bar!",
             "You've just made the leap to hyperspace!|See you at Hack Centauri on December 14th!"
         ];
 
