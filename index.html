@@ -39,7 +39,7 @@
             text-align: center;
             max-width: 500px;
             width: 80%;
-            height: 90vh;
+            height: 80vh;
             position: relative;
             overflow-y: auto;
             box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
@@ -174,12 +174,128 @@
             transform: translateY(1px);
         }
 
-        iframe {
-            width: 100%;
+        /* Custom form styles */
+        .signup-container {
+            background: rgba(0, 0, 0, 0.2);
+            border: 2px solid #fff;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
             max-width: 450px;
-            height: 60vh;
-            border: none;
-            margin: 0 auto;
+            width: 100%;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .form-step {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px auto;
+            background: transparent;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            color: #fff;
+            outline: none;
+            transition: border-color 0.3s;
+            text-align: center;
+        }
+
+        input:focus {
+            border-color: #fff;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .switch-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .switch {
+            position: relative;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: transparent;
+            border: 2px solid #fff;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 2px;
+            bottom: 2px;
+            background-color: #fff;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #fff;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 10px;
+        }
+
+        button {
+            background: transparent;
+            border: 2px solid #fff;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -193,7 +309,48 @@
     <div id="signup-container">
         <div class="container">
             <h1>HACK CENTAURI</h1>
-            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeYag6yeWsVZcoOBXr4ifVOPCCz3tF6ZdcHv2Ps6xxbIKogjA/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+            <div class="signup-container">
+                <form id="signupForm">
+                    <div class="form-step active" data-step="1">
+                        <h2>First Name</h2>
+                        <input type="text" name="firstName" required>
+                    </div>
+                    
+                    <div class="form-step" data-step="2">
+                        <h2>Last Name</h2>
+                        <input type="text" name="lastName" required>
+                    </div>
+                    
+                    <div class="form-step" data-step="3">
+                        <h2>Email</h2>
+                        <input type="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-step" data-step="4">
+                        <h2>Phone Number</h2>
+                        <input type="tel" name="phone" required>
+                    </div>
+                    
+                    <div class="form-step" data-step="5">
+                        <h2>Confirm Registration</h2>
+                        <div class="switch-container">
+                            <label class="switch">
+                                <input type="checkbox" id="launchToggle">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="nav-buttons">
+                        <div>
+                            <button type="button" id="prevBtn" style="display: none;">Previous</button>
+                        </div>
+                        <div>
+                            <button type="button" id="nextBtn">Next</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
             <a href="sponsors.html" class="sponsor-btn">Sponsor Page</a>
         </div>
     </div>
@@ -306,7 +463,6 @@
             context.globalCompositeOperation = "multiply";
 
             function setDPI(canvas, dpi) {
-                // Set up CSS size if it's not set up already
                 if (!canvas.get(0).style.width)
                     canvas.get(0).style.width = canvas.get(0).width + 'px';
                 if (!canvas.get(0).style.height)
@@ -331,7 +487,6 @@
             setDPI(canvas, 192);
 
             var star = function(){
-                // Get a weighted random number, so that the majority of stars will form in the center of the orbit
                 var rands = [];
                 rands.push(Math.random() * (maxorbit/2) + 1);
                 rands.push(Math.random() * (maxorbit/2) + maxorbit);
@@ -480,12 +635,92 @@
 
         $(document).ready(function() {
             blackhole('#blackhole');
+
+            // Custom form initialization
+            let currentStep = 1;
+            const form = document.getElementById('signupForm');
+            const steps = document.querySelectorAll('.form-step');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const launchToggle = document.getElementById('launchToggle');
+
+            function showStep(step) {
+                steps.forEach(s => s.classList.remove('active'));
+                document.querySelector(`[data-step="${step}"]`).classList.add('active');
+                
+                prevBtn.style.display = step === 1 ? 'none' : 'block';
+                
+                if (step === 5) {
+                    nextBtn.textContent = 'Launch!';
+                    nextBtn.disabled = true;
+                } else {
+                    nextBtn.textContent = 'Next';
+                    nextBtn.disabled = false;
+                }
+            }
+
+            prevBtn.addEventListener('click', () => {
+                if (currentStep > 1) {
+                    currentStep--;
+                    showStep(currentStep);
+                }
+            });
+
+            launchToggle.addEventListener('change', () => {
+                nextBtn.disabled = !launchToggle.checked;
+            });
+
+            nextBtn.addEventListener('click', () => {
+                const currentInput = document.querySelector(`[data-step="${currentStep}"] input`);
+                
+                if (currentStep === 5) {
+                    if (launchToggle.checked) {
+                        // Get form data
+                        const formData = new FormData(form);
+                        const data = {
+                            firstName: formData.get('firstName'),
+                            lastName: formData.get('lastName'),
+                            email: formData.get('email'),
+                            phone: formData.get('phone')
+                        };
+
+                        // Show success message immediately
+                        alert('Launch successful!');
+                        form.reset();
+                        currentStep = 1;
+                        showStep(1);
+                        launchToggle.checked = false;
+
+                        // Send data to Google Apps Script in the background
+                        fetch('https://script.google.com/macros/s/AKfycbwrFjpE0Hks8D1gnadA83pXQzGl5LqLzmn8c-C5kiw4kri0IMLsFa6iMYTfE62-V7jCMw/exec', {
+                            method: 'POST',
+                            mode: 'no-cors',
+                            headers: {
+                                'Content-Type': 'text/plain',
+                            },
+                            body: JSON.stringify(data)
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            // Silently log error but don't show to user since form completion already shown
+                        });
+                    }
+                    return;
+                }
+                
+                if (currentInput && currentInput.checkValidity()) {
+                    currentStep++;
+                    showStep(currentStep);
+                } else if (currentInput) {
+                    currentInput.reportValidity();
+                }
+            });
+
+            showStep(1);
         });
 
         function initStarfield() {
-            // Initialize the starfield effect
             main();
-            // Adjust the canvas size to fit the screen
             resizeCanvas();
         }
 
