@@ -31,6 +31,49 @@
             top: 0;
             z-index: -1;
         }
+
+        /* New Info Box Styles */
+        .info-box {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(17, 17, 17, 0.9);
+            border: 2px solid #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            width: 300px;
+            z-index: 1000;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .info-text {
+            color: #ffffff;
+            font-size: 1rem;
+            line-height: 1.5;
+            margin: 0;
+            min-height: 100px;
+            text-align: left;
+            display: inline;
+        }
+
+        .typing-cursor {
+            display: inline-block;
+            width: 3px;
+            height: 20px;
+            background: #fff;
+            margin-left: 5px;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
         .container {
             background-color: rgba(17, 17, 17, 0.8);
             padding: 2rem;
@@ -305,6 +348,10 @@
     </style>
 </head>
 <body>
+    <div class="info-box">
+        <p class="info-text"></p>
+        <span class="typing-cursor"></span>
+    </div>
     <div id="blackhole">
         <div class="centerHover"><span>ENTER</span></div>
     </div>
@@ -362,6 +409,50 @@
     </div>
 
     <script>
+        // Info box typing effect
+        const messages = [
+            "Welcome to Hack Centauri!",
+            "An aerospace-themed hackathon for middle and high school students.",
+            "Join us on March 1st for an amazing experience!",
+            "Learn, create, and innovate with fellow space enthusiasts.",
+            "For business inquiries, please visit our sponsor page.",
+            "Registration is now open - sign up today!"
+        ];
+
+        let currentMessageIndex = 0;
+        let currentCharIndex = 0;
+        const infoText = document.querySelector('.info-text');
+        const infoBox = document.querySelector('.info-box');
+        
+        function typeWriter() {
+            if (currentCharIndex < messages[currentMessageIndex].length) {
+                infoText.textContent += messages[currentMessageIndex][currentCharIndex];
+                currentCharIndex++;
+                setTimeout(typeWriter, 50);
+            } else {
+                setTimeout(eraseText, 3000);
+            }
+        }
+
+        function eraseText() {
+            if (infoText.textContent.length > 0) {
+                infoText.textContent = infoText.textContent.slice(0, -1);
+                setTimeout(eraseText, 30);
+            } else {
+                currentCharIndex = 0;
+                currentMessageIndex = (currentMessageIndex + 1) % messages.length;
+                setTimeout(typeWriter, 500);
+            }
+        }
+
+        // Start the typing animation after a delay
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                infoBox.style.opacity = '1';
+                typeWriter();
+            }, 1000);
+        });
+
         // Starfield effect
         function getRandom(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
